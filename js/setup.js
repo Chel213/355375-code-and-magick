@@ -60,6 +60,7 @@ var fireballInput = fireballWrap.querySelector('[name="fireball-color"]');
 var onSetupPressEsc = function (evt) {
   if (evt.keyCode === KEY_CODE_ESC) {
     setup.classList.add('hidden');
+    document.removeChild('keydown', onSetupPressEsc);
   }
 };
 
@@ -88,12 +89,12 @@ var openSetup = function () {
   });
 
   document.addEventListener('keydown', onSetupPressEsc);
-  userName.onfocus = function () {
+  userName.addEventListener('focus', function () {
     document.removeEventListener('keydown', onSetupPressEsc);
-  };
-  userName.onblur = function () {
+  });
+  userName.addEventListener('blur', function () {
     document.addEventListener('keydown', onSetupPressEsc);
-  };
+  });
 
   wizardCoat.addEventListener('click', function () {
     wizardCoat.style.fill = returnsOrder(coatColorList);
@@ -118,4 +119,5 @@ setupOpenIcon.addEventListener('keydown', function (evt) {
     openSetup();
   }
 });
+
 
