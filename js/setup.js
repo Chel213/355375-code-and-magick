@@ -60,7 +60,7 @@ var fireballInput = fireballWrap.querySelector('[name="fireball-color"]');
 var onSetupPressEsc = function (evt) {
   if (evt.keyCode === KEY_CODE_ESC) {
     setup.classList.add('hidden');
-    document.removeChild('keydown', onSetupPressEsc);
+    document.removeEventListener('keydown', onSetupPressEsc);
   }
 };
 
@@ -77,6 +77,8 @@ var returnsOrder = function (arr) {
   }
 };
 var openSetup = function () {
+  setup.style.top = '';
+  setup.style.left = '';
   setup.classList.remove('hidden');
 
   setupClose.addEventListener('click', function () {
@@ -118,6 +120,50 @@ setupOpenIcon.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEY_CODE_ENTER) {
     openSetup();
   }
+});
+
+
+var controlSetup = document.querySelector('.upload');
+controlSetup.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  var dragged = false;
+
+  var startCoordinates = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+    var shift = {
+      x: startCoordinates.x - moveEvt.clientX,
+      y: startCoordinates.y - moveEvt.clientY
+    };
+
+    startCoordinates = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    setup.style.top = (setup.offsetTop - shift.y) + 'px';
+    setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    if (dragged) {
+      var onClickPreventDefault = function (clickEvt) {
+        clickEvt.preventDefault();
+        controlSetup.removeEventListener('click', onClickPreventDefault);
+      };
+      controlSetup.addEventListener('click', onClickPreventDefault);
+    }
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 
