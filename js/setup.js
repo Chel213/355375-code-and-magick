@@ -9,6 +9,8 @@
   var wizardEyes = document.querySelector('.wizard-eyes');
   var fireballWrap = document.querySelector('.setup-fireball-wrap');
   var fireballInput = fireballWrap.querySelector('[name="fireball-color"]');
+  var coatColorList = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+  var eyesColorList = ['black', 'red', 'blue', 'yellow', 'green'];
 
   //  функция перебора элементов массива по порядку начиная с startNum по кругу
   var startNum = 1;
@@ -53,11 +55,11 @@
     });
 
     wizardCoat.addEventListener('click', function () {
-      wizardCoat.style.fill = returnsOrder(window.createWizards.coatColorList);
+      wizardCoat.style.fill = returnsOrder(coatColorList);
     });
 
     wizardEyes.addEventListener('click', function () {
-      wizardEyes.style.fill = returnsOrder(window.createWizards.eyesColorList);
+      wizardEyes.style.fill = returnsOrder(eyesColorList);
     });
 
     fireballWrap.addEventListener('click', function () {
@@ -66,6 +68,21 @@
       fireballInput.value = colorFireball;
     });
   };
+
+
+  var form = setup.querySelector('.setup-wizard-form');
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form),
+        function () {
+          setup.classList.add('hidden');
+        },
+        window.backend.renderError
+    );
+
+    evt.preventDefault();
+  });
+
 
   window.setup = {
     element: setup,
