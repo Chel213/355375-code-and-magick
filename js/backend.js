@@ -2,17 +2,21 @@
 
 (function () {
 
+  var TIMEOUT = 5000;
+  var STATUS_OK = 200;
+
+
   var renderError = function (message) {
     var msg = document.createElement('div');
     msg.textContent = message;
     msg.style.position = 'absolute';
     msg.style.top = '77%';
     msg.style.left = '33%';
-    msg.style.width = 275 + 'px';
-    msg.style.padding = 12 + 'px';
+    msg.style.width = '275px';
+    msg.style.padding = '12px';
     msg.style.textAlign = 'center';
     msg.style.backgroundColor = 'white';
-    msg.style.border = 2 + 'px' + ' solid' + ' red';
+    msg.style.border = '2px solid red';
     document.querySelector('.setup').appendChild(msg);
   };
 
@@ -23,7 +27,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === STATUS_OK) {
         onLoad(xhr.response);
       } else {
         onError('Ошибка ' + xhr.status);
@@ -38,7 +42,7 @@
       onError('Превышено время отклика');
     });
 
-    xhr.timeout = 5000;
+    xhr.timeout = TIMEOUT;
     xhr.open('GET', URL);
     xhr.send();
   };
@@ -51,7 +55,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === STATUS_OK) {
         onLoad(xhr.response);
       } else {
         onError('Ошибка ' + xhr.status);
@@ -65,7 +69,7 @@
       onError('Превышено время отклика');
     });
 
-    xhr.timeout = 5000;
+    xhr.timeout = TIMEOUT;
     xhr.open('POST', URL);
     xhr.send(data);
   };

@@ -2,7 +2,7 @@
 
 (function () {
 
-  var amountWizards = 4;
+  var AMOUNT_WIZARDS = 4;
 
   var similarItem = document.querySelector('.setup-similar');
   var similarListItem = document.querySelector('.setup-similar-list');
@@ -12,7 +12,7 @@
 
 
   window.backend.load(function (wizards) {
-    for (var i = 0; i < amountWizards; i++) {
+    for (var i = 0; i < AMOUNT_WIZARDS; i++) {
       var simularWizard = similarListTemplate.cloneNode(true);
       simularWizard.querySelector('.setup-similar-label').textContent = wizards[i].name;
       simularWizard.querySelector('.wizard-coat').style.fill = wizards[i].colorCoat;
